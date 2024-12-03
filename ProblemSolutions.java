@@ -1,6 +1,6 @@
 /******************************************************************
  *
- *   ADD YOUR NAME / SECTION NUMBER HERE
+ *   Che Alyssa Zulaik COMP272-002
  *
  *   This java file contains the problem solutions of canFinish and
  *   numGroups methods.
@@ -79,11 +79,34 @@ class ProblemSolutions {
 
         // Build directed graph's adjacency list
         ArrayList<Integer>[] adj = getAdjList(numExams, 
-                                        prerequisites); 
+                                        prerequisites);
 
-        // ADD YOUR CODE HERE - ADD YOUR NAME / SECTION AT TOP OF FILE
-        return false;
+        int[] visited = new int[numNodes];
 
+        for (int i = 0; i < numNodes; i++){
+            if (visited[i] == 0){
+                Stack<Integer> stack = new Stack<>();
+                stack.push(i);
+                while(!stack.isEmpty()){
+                    int current = stack.peek();
+                    if (visited[current] == 0){
+                        visited[current] = 1;
+
+                        for (int neighbour : adj[current]){
+                            if (visited[neighbour] == 0){
+                                stack.push(neighbour);
+                            } else if (visited[neighbour] == 1){
+                                return false;
+                            }
+                        }
+                    } else {
+                        visited[current] = 2;
+                        stack.pop();
+                    }
+                }
+            }
+        }
+        return true;
     }
 
 
@@ -190,9 +213,24 @@ class ProblemSolutions {
             }
         }
 
-        // YOUR CODE GOES HERE - you can add helper methods, you do not need
-        // to put all code in this method.
-        return -1;
+        boolean[] visited = new boolean[numNodes];
+        int groupCount = 0;
+
+        for (i = 0; i < numNodes; i++){
+            if (!visited[i]){
+                dfsHelper(graph, i, visited);
+                groupCount++;
+            }
+        }
+        return groupCount;
     }
 
+    private void dfsHelper(Map<Integer, List<Integer>> graph, int node, boolean[] visited){
+        visited[node] = true;
+        for (int neighbour : graph.getOrDefault(node, Collections.emptyList())){
+            if (!visited[neighbour]){
+                dfsHelper(graph, neighbour, visited);
+            }
+        }
+    }
 }

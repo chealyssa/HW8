@@ -1,6 +1,6 @@
 /******************************************************************
  *
- *   YOUR NAME / SECTION NUMBER
+ *   Che Alyssa Zulaik COMP272-002
  *
  *   Note, additional comments provided throughout this source code
  *   is for educational purposes
@@ -103,8 +103,33 @@ public class Graph {
    */
   
   public int findRoot() {
+    // Create an array to track the number of incoming edges
+    int[] incomingEdges = new int[numVertices];
 
-    // ADD YOUR CODE HERE - DO NOT FORGET TO ADD YOUR NAME/SECTION AT TOP OF FILE
-    return -1;
+    // Traverse the adjacency list to count incoming edges
+    for (int src = 0; src < numVertices; src++){
+      for (int dest : adjListArr[src]){
+        incomingEdges[dest]++;
+      }
+    }
+
+    // Identify vertices with 0 incoming edges
+    int root = -1;
+    for (int i = 0; i < numVertices; i++){
+      if (incomingEdges[i] == 0){
+        if (root == -1){
+          root = i;
+        } else {
+          return -1;
+        }
+      }
+    }
+
+    // Check if unique was found
+    if (root != -1){
+      return vertexValues.get(root);
+    } else {
+      return -1;
+    }
   } 
 }
